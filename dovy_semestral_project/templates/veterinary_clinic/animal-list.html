@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Výpis vyšetřovaných zvířat</h1>
+<!-- form by se dal includnout a dat zvlast do html -->
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ date_input_form }}
+    <input type="submit" value="Zobrazit výpis" style="margin: 0 15px 0 15px;"/>
+</form>
+{% if records %}
+<table>
+    <tr>
+        <th></th>
+        <th>Zvíře - jméno</th>
+        <th>Skupina zvířat</th>
+        <th>Počet vyšetření celkem</th> 
+        <th>Účtováno celkem</th>
+        <th>Majitel zvířete</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td></td>
+        <td>{{ record.animal_name }}</td>
+        <td>{{ record.animal_group_name }}</td>
+        <td>{{ record.total_examinations }}</td>
+        <td>{{ record.total_price }} Kč</td>
+        <td>{{ record.owner_name }} {{ record.owner_surname }}</td>
+    </tr>        
+    {% endfor %}
+</table>
+{% elif msg %}
+<p>{{ msg }}</p>
+{% endif %}
+{% endblock %}

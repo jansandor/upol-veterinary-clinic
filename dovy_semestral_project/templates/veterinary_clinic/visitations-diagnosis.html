@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Přehled návštěv a diagnóz</h1>
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ input_form }}
+    <input type="submit" value="Zobrazit výpis návštěv a diagnóz" style="margin: 0 15px 0 15px;"/>
+</form>
+{% if records %}
+<table>
+    <tr>
+        <th></th>
+        <th>Datum návštěvy/vyšetření</th>
+        <th>Zvíře</th>
+        <th>Majitel</th>
+        <th>Diagnóza</th>
+        <th>Popis diagnózy</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td></td>
+        <td>{{ record.date }}</td>
+        <td>{{ record.animal_name }}</td>
+        <td>{{ record.owner_fullname }}</td>
+        <td>{{ record.diagnosis }}</td>
+        <td>{{ record.description }}</td>
+    </tr>        
+    {% endfor %}
+</table>
+{% elif msg %}
+<p>{{ msg }}</p>
+{% endif %}
+{% endblock %}

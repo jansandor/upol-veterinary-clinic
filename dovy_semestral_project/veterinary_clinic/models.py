@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 
 # Create your models here.
 
 class Medicament(models.Model):
-    name = models.CharField(_("Jméno"), max_length=60)
-    in_stock = models.IntegerField(_("skladem"))
+    name = models.CharField(_("jméno"), max_length=60)
+    # in_stock = models.IntegerField(_("skladem"))
 
     def __str__(self):
         return self.name
@@ -16,9 +17,10 @@ class Medicament(models.Model):
 
 class AnimalOwner(models.Model):
     name = models.CharField(_("jméno"), max_length=60)
+    surname = models.CharField(_("příjmení"), max_length=60)\
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.surname}'
 
 
 class AnimalGroup(models.Model):
@@ -38,33 +40,25 @@ class Animal(models.Model):
     def __str__(self):
         return self.name
 
+class Diagnosis(models.Model):
+    name = models.CharField(_("název"), max_length=60)
+    description = models.TextField(_("popis"))
+
+    class Meta:
+        ordering = ['id']
+
+    def get_absolute_url(self):
+        return reverse('diagnosis-detail', args=[str(self.pk)])
+
+    def __str__(self):
+        return self.name
 
 class Examination(models.Model):
-    # diagnosis = models.OneToOneField(Diagnosis, verbose_name=_("diagnóza"), on_delete=models.CASCADE)
-    diagnosis = models.TextField(_("diagnóza"))
+    diagnosis = models.ForeignKey(Diagnosis, on_delete=models.SET_NULL, null=True, verbose_name=_("diagnóza"))
     price = models.DecimalField(_("cena"), decimal_places=2, max_digits=12)
-    date = models.DateTimeField(_("datum vyšetření"))
-    medicaments = models.ForeignKey(Medicament, verbose_name=_("podané léky"), on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateField(_("datum vyšetření"))
+    medicaments = models.ManyToManyField(Medicament, blank=True, verbose_name=_("podané léky"))
     animal = models.ForeignKey(Animal, verbose_name=_("zvíře"), on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Vyšetření {self.animal.__str__()} {self.date}'
-
-
-
-    
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
+        return f'Vyšetření zvířete {self.animal.__str__()} dne {self.date}'

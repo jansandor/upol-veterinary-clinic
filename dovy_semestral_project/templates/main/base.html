@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <title>{% block title %}Veterinární klinika{% endblock %}</title>
+  <link href="{% static 'veterinary_clinic/css/styles.css' %}" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+  <header>
+      <ul class="nav-main">
+        <!-- <a class="nav-link" href="{% url 'home' %}">Domů</a> -->
+        <a class="nav-link" href="{% url 'animal-list' %}">Výpis vyšetřovaných zvířat</a>
+        <a class="nav-link" href="{% url 'diagnosis-overview' %}">Přehled diagnóz podle četnosti</a>
+        <a class="nav-link" href="{% url 'daily-examinations' %}">Denní výpisy vyšetření</a>
+        <a class="nav-link" href="{% url 'visitations-diagnosis' %}">Přehled návštěv a diagnóz</a>
+        <a class="nav-link" href="{% url 'diagnosis' %}">Detail diagnóz</a>
+      </ul>
+  </header> 
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+
+</html>

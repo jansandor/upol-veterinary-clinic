@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Přehled diagnóz</h1>
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ animal_group_input_form }}
+    <input type="submit" value="Zobrazit výpis diagnóz pro skupinu" style="margin: 0 15px 0 15px;"/>
+</form>
+{% if records %}
+<table>
+    <tr>
+        <th></th>
+        <th>Diagnóza - název</th>
+        <th>Popis diagnózy</th>
+        <th>Celkem případů</th> 
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td></td>
+        <td>{{ record.name }}</td>
+        <td>{{ record.description }}</td>
+        <td>{{ record.diagnosis_count }}</td>
+    </tr>        
+    {% endfor %}
+</table>
+{% elif msg %}
+<p>{{ msg }}</p>
+{% endif %}
+{% endblock %}

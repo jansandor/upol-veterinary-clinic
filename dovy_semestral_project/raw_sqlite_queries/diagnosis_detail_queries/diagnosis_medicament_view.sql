@@ -1,0 +1,11 @@
+CREATE VIEW IF NOT EXISTS diagnosis_medicament_view AS
+SELECT
+	veterinary_clinic_diagnosis.id AS diagnosis_id,
+	veterinary_clinic_diagnosis.name AS diagnosis_name,
+	veterinary_clinic_diagnosis.description AS diagnosis_description,
+	veterinary_clinic_medicament.id AS medicament_id,
+	veterinary_clinic_medicament.name AS medicament_name
+FROM veterinary_clinic_examination
+LEFT JOIN veterinary_clinic_examination_medicaments ON examination_id=veterinary_clinic_examination.id
+LEFT JOIN veterinary_clinic_medicament ON medicament_id=veterinary_clinic_medicament.id
+LEFT JOIN veterinary_clinic_diagnosis ON diagnosis_id=veterinary_clinic_diagnosis.id;

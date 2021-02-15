@@ -1,0 +1,33 @@
+body {
+    padding: 0 300px 0 300px;
+}
+
+main {
+    background-color: cornsilk;
+    padding: 20px;
+}
+
+.nav-link {
+    display: inline-block;
+    margin: 10px 5px 10px 5px;
+    padding: 10px;
+    background-color: chartreuse;
+}
+
+h1 {
+    margin: 0 0 20px 0;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.input-form {
+    padding: 0 15px 15px 0;
+}

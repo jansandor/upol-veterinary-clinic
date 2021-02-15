@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Detail diagnóz</h1>
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ input_form }}
+    <input type="submit" value="Zobrazit detail diagnózy" style="margin: 0 15px 0 15px;"/>
+</form>
+{% if data_present %}
+<h3>Popis diagnózy</h3>
+<p>{{ diagnosis_description.description }}</p>
+<h3>Počet indikací: {{ diagnosis_indications_count.indications_count }}</h3>
+<h3>Použité léky</h3>
+<table>
+    <tr>
+        <th></th>
+        <th>Lék</th>
+        <th>Počet podání léku</th>
+    </tr>
+    {% for medicament in medicaments %}
+    <tr>
+        {% if medicament.name != None %}
+        <td></td>        
+        <td> {{ medicament.name }}</td>
+        <td>{{ medicament.used_count }}</td>
+        {% endif %}
+    </tr>      
+    {% endfor %}    
+</table>
+<p>U <strong>{{ no_meds_used_count }}</strong> indikací diagnózy nebyly podány žádné léky.</p>
+{% endif %}
+{% endblock %}

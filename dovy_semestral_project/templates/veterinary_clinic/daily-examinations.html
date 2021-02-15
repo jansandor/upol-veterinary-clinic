@@ -1,0 +1,77 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Denní výpisy vyšetření</h1>
+<!-- form by se dal includnout a dat zvlast do html -->
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ date_input_form }}
+    <input type="submit" value="Zobrazit výpis" style="margin: 0 15px 0 15px;"/>
+</form>
+{% for date in dates %}
+
+<h3>Vyšetření dne <i>{{ date.0 }}</i></h3>
+
+{% for exs_cnts in examinations_counts %}
+{% for ex_count in exs_cnts %}
+{% if ex_count.date == date.0 %}
+<h4>Celkem {{ ex_count.total_examinations }} vyšetření</h4>
+{% endif %}
+{% endfor %}  
+{% endfor %}
+
+{% for meds_used_counts in medicaments_used_counts %}
+{% for med_used_count in meds_used_counts %}
+{% if med_used_count.date == date.0 %}
+<h4>Celkem použito léků {{ med_used_count.meds_used_total }}</h4>
+{% endif %}
+{% endfor %}  
+{% endfor %}
+
+<table>
+    <tr>
+        <th></th>
+        <th>Zvíře</th>
+        <th>Aplikované léky</th>
+        <th>Cena vyšetření</th>
+    </tr>
+    {% for exs in examinations %}
+    {% for ex in exs %}
+    {% if ex.date == date.0 %}
+    <tr>
+        <td></td>        
+        <td>{{ ex.animal_name }}</td>
+        <td>
+            {% for meds_animals in medicaments_animals %}
+            {% for med_animal in meds_animals %}
+            {% if med_animal.animal_id == ex.animal_id and med_animal.date == date.0 %}
+                {% if med_animal.medicament == None %}
+                    žádné
+                {% else %}
+                    {{ med_animal.medicament }},
+                {% endif %}
+            {% endif %}
+            {% endfor %}  
+            {% endfor %}
+        </td>
+        <td>{{ ex.price }} Kč</td>
+    </tr>
+    {% endif %}
+    {% endfor %}  
+    {% endfor %}
+
+    {% for prcs in prices %}
+    {% for price in prcs %}
+    {% if price.date == date.0 %}
+    <tr>
+        <td></td>
+        <td></td>        
+        <td><strong>Cena celkem</strong></td>
+        <td><strong>{{ price.total_price }} Kč</strong></td>
+    </tr>
+    {% endif %}
+    {% endfor %}  
+    {% endfor %}
+</table>
+{% endfor %}
+{% endblock %}
